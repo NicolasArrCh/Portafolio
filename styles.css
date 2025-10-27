@@ -224,9 +224,9 @@ body::after {
 .project-card {
     background-color: rgba(30, 36, 41, 0.4);
     padding: 30px;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid var(--text-color);
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
 .project-card:hover {
@@ -240,10 +240,26 @@ body::after {
     color: var(--light-text);
     margin-bottom: 10px;
     font-size: 1.5em;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1); 
+    padding-bottom: 8px;
+    margin-bottom: 15px;
 }
 
 .card-description {
-    margin-bottom: 20px;
+    color: var(--text-color);
+    margin-bottom: 25px;
+    line-height: 1.5;
+    font-size: 0.95em;
+    padding-left: 15px;
+    position: relative;
+}
+
+.card-description::before {
+    content: "«"; /* Indicador de bloque de información */
+    color: var(--primary-accent);
+    position: absolute;
+    left: 0;
+    font-weight: 700;
 }
 
 /* 7. SECCIÓN HABILIDADES (Estilo HUD/Halo) */
@@ -351,7 +367,7 @@ body::after {
 .about-text {
     font-size: 1.1em;
     line-height: 1.8;
-    margin-bottom: 25px;
+    margin-bottom: 37px;
     color: var(--light-text);
     border-left: none;
     border-top: 1px dashed #8000FF;
