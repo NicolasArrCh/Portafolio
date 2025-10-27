@@ -14,8 +14,12 @@
     --secondary-accent: #9360FF;
     --text-color: #8ab4f8;
     --card-bg: #386B87;
-    --main-bg: #2c3238;
-    --light-text: #EAEAEA; /* Para el texto principal y títulos */
+    --metal-dark: #1E2429;
+    --metal-medium: #2C3238;
+    --metal-light: #384047;
+    --main-bg: var(--metal-dark); /* El fondo general será el más oscuro */
+    --light-text: #EAEAEA; 
+    --divider-color: rgba(83, 40, 233, 0.3); /* Asegura que el color sea consistente */
 }
 
 * {
@@ -29,24 +33,62 @@ body {
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
+    background: linear-gradient(145deg, var(--metal-medium) 10%, var(--metal-dark) 50%, var(--metal-light) 90%);
+    background-size: 400% 400%; /* Habilita el estiramiento para la animación */
+    animation: gradientMove 25s ease infinite; /* Aplica la animación */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 60%, rgba(64,145,255,0.15), transparent 70%);
+    mix-blend-mode: overlay;
+    z-index: -10;
+}
+
+body::after {
+    content: "";
+    position: fixed; /* 'fixed' para que la textura no se mueva con el scroll */
+    inset: 0;
+    /* Patrón de líneas cruzadas sutiles (simulación de textura Forerunner) */
+    background-image:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(60deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mix-blend-mode: overlay;
+    z-index: -11; /* Detrás del 'before' y del contenido */
 }
 
 /* 2. CLASES GENERALES DE TIPOGRAFÍA Y SECCIONES */
 .section-padding {
     padding: 80px 5%;
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .section-title {
     color: var(--light-text);
     font-size: 2.5em;
-    text-align: center;
     margin-bottom: 50px;
-    /* Subrayado con el acento primario */
     border-bottom: 3px solid var(--primary-accent);
     display: inline-block;
     padding-bottom: 5px;
+    text-align: center;
+    margin: 0 0 50px;
+}
+
+.hero-section,
+.about-section,
+.projects-section,
+.skills-section {
+    text-align: center; /* ¡Aseguramos que el padre centre el contenido! */
 }
 
 .primary-accent {
@@ -61,19 +103,22 @@ body {
 /* 3. CABECERA Y NAVEGACIÓN */
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px 5%;
-    border-bottom: 1px solid var(--divider-color);
+    border-bottom: 1px solid rgba(83, 40, 233, 0.3);
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.95); /* Fondo semitransparente para efecto oscuro */
+    background-color: rgba(0, 0, 0, 0.95);
+    box-shadow: 0 0 50px rgba(83, 40, 233, 0.1);
 }
 
 .logo {
+    margin-right: auto;
     font-size: 1.8em;
-    font-weight: 700;
+    font-weight: 300;
+    letter-spacing: 2px;
 }
 
 .nav-link {
@@ -88,6 +133,9 @@ body {
     color: var(--secondary-accent);
 }
 
+.navbar {
+    margin-left: auto;
+}
 
 /* 4. BOTONES (Call to Action) */
 .cta-button {
@@ -98,10 +146,25 @@ body {
     transition: all 0.3s ease;
 }
 
+.cta-contact-link {
+    background: var(--primary-accent);
+    color: var(--light-text);
+    padding: 8px 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(83, 40, 233, 0.5); 
+    margin-left: 25px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.cta-contact-link:hover {
+    background: var(--secondary-accent);
+    box-shadow: 0 0 15px var(--secondary-accent);
+}
+
 .primary-button {
     background: var(--primary-accent);
     color: var(--light-text);
-    /* Sombra "neon" sutil */
     box-shadow: 0 0 10px rgba(83, 40, 233, 0.5); 
 }
 
@@ -114,11 +177,17 @@ body {
     background: none;
     color: var(--secondary-accent);
     border: 2px solid var(--secondary-accent);
+    padding: 8px 18px; /* Ajustamos el padding para que sea visualmente coherente */
+    text-transform: uppercase;
+    font-size: 0.9em;
+    border-radius: 6px;
 }
 
 .secondary-button:hover {
     background: var(--secondary-accent);
     color: var(--main-bg);
+    border-color: var(--secondary-accent);
+    box-shadow: 0 0 10px var(--secondary-accent);
 }
 
 
@@ -136,6 +205,7 @@ body {
     font-size: 3.5em;
     margin-bottom: 10px;
     color: var(--light-text);
+    text-align: left;
 }
 
 .hero-subtitle {
@@ -152,16 +222,18 @@ body {
 }
 
 .project-card {
-    background-color: var(--card-bg);
+    background-color: rgba(30, 36, 41, 0.4);
     padding: 30px;
-    border-radius: 10px;
-    border-top: 5px solid var(--secondary-accent); /* Detalle de acento */
+    border-radius: 0px;
+    border: 1px solid var(--text-color);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .project-card:hover {
     transform: translateY(-5px); /* Pequeño levantamiento */
-    box-shadow: 0 10px 20px rgba(147, 96, 255, 0.2);
+    box-shadow: 0 0 15px var(--secondary-accent);
+    border-color: var(--primary-accent); 
+    background-color: rgba(30, 36, 41, 0.6);
 }
 
 .card-title {
@@ -174,29 +246,84 @@ body {
     margin-bottom: 20px;
 }
 
-
-/* 7. SECCIÓN HABILIDADES (Barras de Progreso) */
-.skill-item {
-    margin-bottom: 20px;
+/* 7. SECCIÓN HABILIDADES (Estilo HUD/Halo) */
+.skill-grid-halo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
 }
 
-.skill-name {
+.skill-card-halo {
+    background-color: rgba(56, 107, 135, 0.1);
+    padding: 25px;
+    width: 100%;
+    max-width: 350px;
+    min-height: 200px;
+    border-radius: 4px;
+    border: 1px solid var(--secondary-accent);
+    box-shadow: 0 0 10px rgba(147, 96, 255, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-weight: 300; 
+    letter-spacing: 0.5px;
+}
+
+.skill-card-halo:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px var(--secondary-accent);
+    background-color: rgba(56, 107, 135, 0.2);
+}
+
+.skill-name-halo {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    border-bottom: 2px dashed rgba(83, 40, 233, 0.5);
+    padding-bottom: 5px;
+}
+
+.skill-level-halo {
     color: var(--light-text);
-    margin-bottom: 5px;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px
 }
 
-.skill-bar {
-    height: 10px;
-    background-color: var(--divider-color);
-    border-radius: 5px;
+.skill-level-halo strong {
+    color: var(--secondary-accent);
 }
 
-.skill-level {
-    height: 100%;
-    /* Degradado de acento para un mejor efecto visual */
-    background: linear-gradient(90deg, var(--secondary-accent) 0%, var(--primary-accent) 100%);
-    border-radius: 5px;
-    transition: width 1.5s ease-out; /* Animación de carga */
+.skill-detail-halo {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 400;
+}
+
+.skill-detail-halo strong {
+    color: var(--primary-accent);
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+/* Pequeño icono de triángulo o punto (Estilo HUD) */
+.skill-detail-halo::before {
+    content: "▹"; /* Un triángulo o flecha */
+    color: var(--primary-accent);
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+}
+
+
+/* Media Query para asegurar la responsividad en pantallas pequeñas */
+@media (max-width: 600px) {
+    .skill-card-halo {
+        max-width: 100%;
+    }
 }
 
 
@@ -204,8 +331,39 @@ body {
 .footer {
     text-align: center;
     padding: 30px 5%;
-    border-top: 1px solid var(--divider-color);
+    border-top: 1px solid rgba(83, 40, 233, 0.3);
     font-size: 0.9em;
+}
+
+.about-section {
+    background-color: #1e2429; /* Un fondo ligeramente diferente para contraste */
+    border-top: 5px solid var(--primary-accent);
+    /* border-bottom: 3px solid var(--primary-accent); */
+    border-radius: 0;
+}
+
+.about-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.about-text {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: var(--light-text);
+    border-left: none;
+    border-top: 1px dashed #8000FF;
+    position: relative;
+    text-align: left;
+}
+
+.about-text strong {
+    /* Usaremos el color del acento secundario para las etiquetas */
+    color: var(--secondary-accent); 
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .social-links a {
@@ -216,4 +374,137 @@ body {
 
 .social-links a:hover {
     color: var(--light-text);
+}
+
+.hero-image-container {
+    width: 300px;
+    height: 330px;
+    display: block;
+    margin: 0 auto;
+    border: 2px solid #8ab4f8;
+    box-shadow: 0 0 15px rgba(138, 180, 248, 0.7);
+    border-radius: 10px;
+    overflow: hidden; 
+}
+
+.hero-image-content {
+    width: 100%;
+    height: auto; 
+    object-fit: cover;
+    width: 100%;
+    height: 105%;
+}
+
+.Parte {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.uno {
+    max-width: 55%;
+}
+
+.dos {
+    max-width: 35%; 
+}
+
+@media (max-width: 900px) {
+    .Parte {
+        flex-direction: column;
+        text-align: center;
+    }
+    .uno, .dos {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+    .hero-title {
+        text-align: center;
+        font-size: 2.5em;
+    }
+}
+
+.contact-links {
+    margin-bottom: 15px;
+}
+
+.contact-info {
+    display: inline-block;
+    margin: 0 15px;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.contact-info a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-info a:hover {
+    color: var(--secondary-accent);
+}
+
+.social-links {
+    margin-top: 10px;
+}
+
+/* 9. SECCIÓN CONTACTO (Terminal de Enlace) */
+.contact-section {
+    /* Fondo ligeramente diferente para contraste */
+    background-color: var(--main-bg); 
+    border-top: 3px solid var(--secondary-accent);
+}
+
+.contact-prompt {
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.contact-details-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+.contact-item {
+    background-color: rgba(56, 107, 135, 0.1);
+    padding: 20px;
+    border: 1px dashed var(--primary-accent);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    transition: box-shadow 0.3s;
+    text-align: center;
+}
+
+.contact-item:hover {
+    box-shadow: 0 0 15px var(--primary-accent);
+}
+
+.contact-label {
+    font-size: 0.9em;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+}
+
+.contact-value {
+    font-size: 1.1em;
+    font-weight: 700;
+    word-break: break-all;
+}
+
+.footer .contact-links {
+    display: none;
 }
