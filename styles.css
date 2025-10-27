@@ -474,6 +474,7 @@ body::after {
     /* Fondo ligeramente diferente para contraste */
     background-color: var(--main-bg); 
     border-top: 3px solid var(--secondary-accent);
+    text-align: center;
 }
 
 .contact-prompt {
@@ -484,6 +485,7 @@ body::after {
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
+    text-align: center;
 }
 
 .contact-details-grid {
